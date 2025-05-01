@@ -1,6 +1,6 @@
 [package]
 name = "axum_rate_limiter"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["Maksim Selgunov"]
 description = "A flexible and powerful rate limiting middleware for Axum web framework with support for multiple strategies including IP, URL, Headers, Query parameters, and Request body content"
