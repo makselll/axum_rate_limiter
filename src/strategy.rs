@@ -4,7 +4,6 @@ use std::net::SocketAddr;
 use axum::async_trait;
 use deadpool_redis::{redis, Connection};
 use serde_json::Value;
-use url::{form_urlencoded};
 use crate::limiter::{Bucket, SafeRequest};
 use crate::settings::PossibleStrategies;
 
@@ -180,7 +179,7 @@ impl RateLimiterChecker for RequestQueryRateLimiterStrategy {
         let mut found_bucket: Option<Bucket> = None;
 
         if let Some(query) = request.parts.uri.query() {
-            for (k, v) in form_urlencoded::parse(query.as_bytes()) {
+            for (k, v) in url::form_urlencoded::parse(query.as_bytes()) {
                 if let Some(bucket) = buckets_per_value?.get(&k.to_string()) {
                     found_param = Some(format!("{}:{}", k, v));
                     found_bucket = Some(bucket.to_owned());
