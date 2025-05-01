@@ -89,21 +89,12 @@ export RL_SETTINGS_PATH=/path/to/your/custom/Settings.toml
 ```
 
 Here's a detailed breakdown of the configuration options:
-
-### API Gateway Configuration
-
-```toml
-[api_gateway]
-target_url = "python-server:5000"      # The target service URL to proxy requests to
-proxy_server_addr = "0.0.0.0:3000"     # The address where the rate limiter proxy will listen
-```
-
 ### Rate Limiter Base Configuration
 
 ```toml
 [rate_limiter]
 redis_addr = "redis:6379"              # Redis server address for token bucket storage
-ip_whitelist = ["127.0.0.1", "198.0.0.1"]  # List of IPs that bypass rate limiting
+ip_whitelist = ["127.0.0.1"]  # List of IPs that bypass rate limiting
 ```
 
 ### Rate Limiting Strategies
@@ -118,7 +109,7 @@ The rate limiter supports multiple strategies that can be configured simultaneou
 strategy = "url"
 global_bucket = { tokens_count = 10, add_tokens_every = 120 }  # Global limit for all URLs
 buckets_per_value = [
-    { value = "/hello", tokens_count = 1, add_tokens_every = 10 },  # Specific limit for /hello
+    { value = "/example", tokens_count = 1, add_tokens_every = 10 },  # Specific limit for /hello
     { value = "/", tokens_count = 5, add_tokens_every = 10 }        # Specific limit for /
 ]
 ```
