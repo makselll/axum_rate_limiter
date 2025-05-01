@@ -1,6 +1,55 @@
-# Rate Limiter
+# Axum Rate Limiter
 
-A flexible and powerful rate limiting solution that can be configured to limit requests based on various strategies including IP, URL, Headers, Query parameters, and Request body content.
+[![Crates.io](https://img.shields.io/crates/v/axum_rate_limiter.svg)](https://crates.io/crates/axum_rate_limiter)
+[![Documentation](https://docs.rs/axum_rate_limiter/badge.svg)](https://docs.rs/axum_rate_limiter)
+
+A flexible and powerful rate limiting middleware for Axum web framework that can be configured to limit requests based on various strategies including IP, URL, Headers, Query parameters, and Request body content.
+
+## Quick Start
+
+Add the dependency to your `Cargo.toml`:
+
+```toml
+[dependencies]
+axum_rate_limiter = "0.1.0"
+```
+
+Basic usage example:
+
+```rust
+use axum::{Router, routing::get};
+use axum_rate_limiter::settings::{Settings};
+use axum_rate_limiter::limiter::{RateLimiterManager, middleware};
+
+struct Server {}
+
+impl Server {
+  // Configure the rate limiter
+  async fn run(self) -> Result<(), std::io::Error> {
+    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await?;
+
+    // Use ready-made config or extend your config with RateLimiterSettings
+    let settings = Settings::new().expect("Failed to create settings");
+    
+    let limiter_manager = Arc::new(
+      RateLimiterManager::new(settings.rate_limiter_settings).expect("Failed to create rate limiter")
+    );
+
+    let app = Router::new()
+            .route("/*path", any(handler))
+            .route("/", any(handler))
+            .layer(from_fn_with_state(limiter_manager, middleware));
+
+    axum::serve(listener, app.into_make_service_with_connect_info::<SocketAddr>()).await
+  }
+}
+
+#[tokio::main]
+async fn main() {
+  let server = Server{};
+  server.run().await
+}
+```
 
 ## Features
 

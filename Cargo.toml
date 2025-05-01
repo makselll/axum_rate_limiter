@@ -1,13 +1,15 @@
 [package]
 name = "axum_rate_limiter"
 version = "0.1.0"
-edition = "2024"
-
-description = "Rate limiter for Axum"
+edition = "2021"
+authors = ["Maksim Selgunov"]
+description = "A flexible and powerful rate limiting middleware for Axum web framework with support for multiple strategies including IP, URL, Headers, Query parameters, and Request body content"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/makselll/axum_rate_limiter"
+documentation = "https://docs.rs/axum_rate_limiter"
 readme = "README.md"
-categories = ["api-bindings", "web-programming", "concurrency"]
+keywords = ["axum", "rate-limiting", "middleware", "web", "redis"]
+categories = ["web-programming::http-server", "web-programming::http-client", "caching", "api-bindings"]
 
 [dependencies]
 config = "0.15.11"
@@ -15,5 +17,5 @@ serde = "1.0.219"
 axum = { version = "0.7.4", features = ["json"] }
 deadpool-redis = "0.20.0"
 axum-macros = "0.5.0"
-url = "2.5.4"
 serde_json = "1.0.140"
+url = "2.5.4"

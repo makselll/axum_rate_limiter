@@ -8,15 +8,6 @@ use serde::Deserialize;
 pub struct Settings {
     #[serde(rename = "rate_limiter")]
     pub rate_limiter_settings: RateLimiterSettings,
-
-    #[serde(rename = "api_gateway")]
-    pub api_gateway_settings: ApiGatewaySettings,
-}
-
-#[derive(Deserialize, Debug, Clone)]
-pub struct ApiGatewaySettings {
-    pub target_url: String,
-    pub proxy_server_addr: String,
 }
 
 #[derive(Deserialize, Debug, Clone)]
