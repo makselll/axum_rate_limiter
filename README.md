@@ -24,8 +24,12 @@ use axum::{
     routing::any,
     response::IntoResponse,
 };
+use axum::body::Body;
+use axum::http::{Request, StatusCode};
+use axum::middleware::from_fn_with_state;
+use axum::response::Response;
 use axum_rate_limiter::settings::Settings;
-use axum_rate_limiter::limiter::{RateLimiterManager, middleware};
+use axum_rate_limiter::limiter::{RateLimiterManager, middleware as rate_limiter_middleware};
 
 // Simple handler that returns "Hello, World!"
 async fn handler() -> impl IntoResponse {
@@ -49,7 +53,7 @@ impl Server {
         let app = Router::new()
             .route("/*path", any(handler))
             .route("/", any(handler))
-            .layer(from_fn_with_state(limiter_manager, middleware));
+            .layer(from_fn_with_state(limiter_manager, rate_limiter_middleware));
 
         println!("Server running on http://0.0.0.0:3000");
         axum::serve(listener, app.into_make_service_with_connect_info::<SocketAddr>()).await
