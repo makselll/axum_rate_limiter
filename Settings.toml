@@ -1,0 +1,39 @@
+[api_gateway]
+target_url = "python-server:5000"
+proxy_server_addr = "0.0.0.0:3000"
+
+
+[rate_limiter]
+redis_addr = "redis:6379"
+ip_whitelist = ["127.0.0.1", "198.0.0.1"]
+
+#[[rate_limiter.limiter]]
+#strategy = "url"
+#global_bucket = { tokens_count = 10, add_tokens_every = 120 }
+#buckets_per_value = [
+#    { value = "/hello", tokens_count = 1, add_tokens_every = 10 },
+#    { value = "/", tokens_count = 5, add_tokens_every = 10 }
+#]
+#
+#[[rate_limiter.limiter]]
+#strategy = "ip"
+#global_bucket = { tokens_count = 10, add_tokens_every = 120 }
+
+#[[rate_limiter.limiter]]
+#strategy = "header"
+#global_bucket = { tokens_count = 3, add_tokens_every = 120 }
+#buckets_per_value = [
+#    { value = "X-Telegram-User-Token", tokens_count = 1, add_tokens_every = 100 },
+#]
+#
+#[[rate_limiter.limiter]]
+#strategy = "query"
+#buckets_per_value = [
+#    { value = "qaz", tokens_count = 1, add_tokens_every = 30 },
+#]
+
+[[rate_limiter.limiter]]
+strategy = "body"
+buckets_per_value = [
+    { value = "qaz", tokens_count = 1, add_tokens_every = 30 },
+]
